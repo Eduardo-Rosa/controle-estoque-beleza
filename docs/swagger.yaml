@@ -1,0 +1,122 @@
+definitions:
+  domain.Product:
+    properties:
+      brand:
+        type: string
+      category:
+        type: string
+      expiryDate:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
+      sku:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/products:
+    get:
+      consumes:
+      - application/json
+      description: Retorna uma lista de produtos cadastrados
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Product'
+            type: array
+      summary: Lista todos os produtos
+      tags:
+      - Produtos
+    post:
+      consumes:
+      - application/json
+      description: Adiciona um novo produto ao estoque
+      parameters:
+      - description: Dados do produto
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Product'
+      summary: Cria um novo produto
+      tags:
+      - Produtos
+  /api/v1/products/{id}:
+    delete:
+      description: Remove um produto do estoque
+      parameters:
+      - description: ID do produto
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      summary: Deleta um produto
+      tags:
+      - Produtos
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um produto existente
+      parameters:
+      - description: ID do produto
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados do produto
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Product'
+      summary: Atualiza um produto
+      tags:
+      - Produtos
+  /api/v1/products/search:
+    get:
+      description: Retorna uma lista de produtos filtrados por categoria
+      parameters:
+      - description: Categoria do produto
+        in: query
+        name: category
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Product'
+            type: array
+      summary: Busca produtos por categoria
+      tags:
+      - Produtos
+swagger: "2.0"
